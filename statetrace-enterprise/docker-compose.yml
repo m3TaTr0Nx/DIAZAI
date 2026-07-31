@@ -1,0 +1,32 @@
+services:
+  python:
+    build:
+      context: .
+      dockerfile: python-service/Dockerfile
+    ports: ["8765:8765"]
+    environment:
+      STATETRACE_DB: /data/statetrace.sqlite3
+      STATETRACE_ENABLE_ADMIN_RESET: "true"
+      STATETRACE_CORS_ORIGINS: http://127.0.0.1:8080,http://localhost:8080
+    volumes: ["statetrace_data:/data"]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+  node:
+    build:
+      context: .
+      dockerfile: node-service/Dockerfile
+    ports: ["8766:8766"]
+    environment:
+      PORT: "8766"
+      STATETRACE_LEDGER: /data/node-ledger.jsonl
+      STATETRACE_ENABLE_ADMIN_RESET: "true"
+      STATETRACE_CORS_ORIGIN: http://127.0.0.1:8080
+    volumes: ["statetrace_data:/data"]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+volumes:
+  statetrace_data:
