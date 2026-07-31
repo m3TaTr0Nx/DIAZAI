@@ -1,0 +1,12 @@
+{
+  "name": "@diazai/statetrace-web-console",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check app.js && node --check demo-engine.js && node --check server.mjs"
+  },
+  "license": "MIT"
+}
