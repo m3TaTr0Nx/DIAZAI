@@ -1,0 +1,26 @@
+{
+  "name": "@diazai/unified-node-tools",
+  "version": "2.0.0",
+  "description": "Node.js control plane, MCP client/server, synapse discovery, plugins, audit, and DR TENSOR parity tools for DIAZAI",
+  "type": "module",
+  "main": "src/sdk.mjs",
+  "bin": {
+    "diazai-unified": "src/cli.mjs",
+    "diazai-node-agent": "src/agent.mjs"
+  },
+  "scripts": {
+    "start": "node src/index.mjs",
+    "test": "node --test --test-reporter=spec",
+    "selftest": "node src/selftest.mjs",
+    "check": "node --check src/index.mjs && node --check src/server.mjs && node --check src/cli.mjs"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./src/sdk.mjs",
+    "./server": "./src/index.mjs",
+    "./agent": "./src/agent.mjs"
+  }
+}
