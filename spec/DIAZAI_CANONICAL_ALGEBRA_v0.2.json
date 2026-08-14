@@ -1,0 +1,75 @@
+{
+  "version": "0.2",
+  "status": "canonical-draft",
+  "carrier": {
+    "ring": "Z/9Z",
+    "space": "(Z/9Z)^3",
+    "order": 729,
+    "zero_suppressed_digit_9": true
+  },
+  "vectors": {
+    "Lambda": [1,1,1],
+    "h_X": [0,1,2],
+    "h_Y": [0,1,5],
+    "h_Z": [0,1,8],
+    "C": [0,3,6],
+    "F": [0,6,3]
+  },
+  "families": {
+    "formula": "h_f=(0,1,2+3f), f in Z3",
+    "common_third_step": "3 h_f = C mod 9",
+    "plane": "P_f={a Lambda + c h_f: a,c in Z9}",
+    "order": 81,
+    "normals": {"X":[1,7,1],"Y":[4,4,1],"Z":[7,1,1]}
+  },
+  "spine": {"formula":"K=<Lambda,C>","order":27,"structure":"C9 x C3"},
+  "triality": {
+    "group": "S3",
+    "reflections": {
+      "J_X": "(i,j,k)->(k,j,i)",
+      "J_Y": "(i,j,k)->(j,i,k)",
+      "J_Z": "(i,j,k)->(i,k,j)"
+    },
+    "generic_multiset_split": "2_X + 2_Y + 2_Z",
+    "principal_union_unique_states": 189,
+    "tagged_incidences": 243
+  },
+  "reversal_braid": {
+    "J": "J_X",
+    "plane_action": {"X":"X","Y":"Z","Z":"Y"},
+    "column_action": {
+      "X": "c -> -c mod9",
+      "Y_to_Z": "c -> 5c mod9",
+      "Z_to_Y": "c -> 2c mod9"
+    }
+  },
+  "native_ntt": {
+    "group": "C9^3",
+    "field_prime": 58321,
+    "omega9": 51567,
+    "omega3": 30624,
+    "formula": "Fhat(a,b,c)=sum_{i,j,k} F(i,j,k)*omega9^(ai+bj+ck)",
+    "tensor_factorization": "F9 tensor F9 tensor F9",
+    "radix3_stages": 6,
+    "butterflies": 1458,
+    "superplane_indicator_support_bins": 9,
+    "translation_action": "diagonal character multiplication",
+    "S3_action": "frequency-coordinate permutation"
+  },
+  "cyclic_729_ntt": {
+    "status": "optional transport representation",
+    "warning": "C9^3 is not additively isomorphic to C729"
+  },
+  "macro_rotor": {
+    "group": "C60",
+    "role": "60-trit stream/chart rotation",
+    "radix_charts": [
+      {"base":3,"width":1,"count":60},
+      {"base":9,"width":2,"count":30},
+      {"base":27,"width":3,"count":20},
+      {"base":81,"width":4,"count":15},
+      {"base":243,"width":5,"count":12},
+      {"base":729,"width":6,"count":10}
+    ]
+  }
+}
