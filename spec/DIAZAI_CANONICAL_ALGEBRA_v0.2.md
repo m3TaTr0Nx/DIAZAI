@@ -1,0 +1,163 @@
+# DIAZAI / DR TENSOR Canonical Algebra v0.2
+
+Status tags used below:
+
+- **[DEFINITION]** chosen convention or representation.
+- **[THEOREM]** algebraically derivable from the definitions.
+- **[COMPUTED]** exhaustively checked over the finite carrier.
+- **[REPRESENTATION]** implementation/codec choice; not an intrinsic algebraic identity.
+- **[CONJECTURE]** proposed computational interpretation not yet benchmark-established.
+
+## 1. Carrier and zero-suppressed digit codec
+
+**[DEFINITION]** Let `D={1,...,9}` with displayed digit 9 representing residue 0 in `Z9`. The canonical carrier is
+
+`A=(Z/9Z)^3`.
+
+Digitwise digital-root addition is transported ordinary addition in `A`; it is associative and commutative.
+
+## 2. Four primitive construction vectors
+
+Define the shared vertical rotor `Lambda=(1,1,1)` and the three principal horizontal seeds
+
+`h_X=(0,1,2)`, `h_Y=(0,1,5)`, `h_Z=(0,1,8)`.
+
+Equivalently `h_f=(0,1,2+3f)`, `f in Z3`.
+
+**[THEOREM]** `3 h_X = 3 h_Y = 3 h_Z = C=(0,3,6) mod 9`.
+
+## 3. Superplane orbit map
+
+For each family define
+
+`Phi_f(a,c)=a Lambda + c h_f`, with `a,c in Z9`.
+
+Then `P_f=im Phi_f=<Lambda,h_f>` and `|P_f|=81`.
+
+Thus one horizontal seed plus the shared vertical rotor generates a complete superplane. The three principal planes require the four tuples `{Lambda,h_X,h_Y,h_Z}`.
+
+## 4. Unit-orbit generator families
+
+`U(9)={1,2,4,5,7,8} ~= C6`. For every unit `u`, `<Lambda,u h_f>=P_f`. Unit multiplication changes traversal/order, not support. Unit vertical row multipliers likewise preserve support. Hence each family has `6 x 6 = 36` ordered unit-row/unit-column tableaus over one 81-point support.
+
+## 5. Implicit equations
+
+Let `rho_f=2+3f` and
+
+`ell_f=(rho_f-1,-rho_f,1)=(1+3f,7-3f,1) mod9`.
+
+So
+
+- `ell_X=(1,7,1)`
+- `ell_Y=(4,4,1)`
+- `ell_Z=(7,1,1)`.
+
+**[THEOREM]** `P_f=ker L_f`, `L_f(v)=ell_f dot v mod9`.
+
+Equivalently
+
+- `L_X=i-2j+k`
+- `L_Y=4i-5j+k`
+- `L_Z=7i-8j+k`.
+
+## 6. Common 27-cell spine
+
+**[THEOREM]**
+
+`K=P_X intersect P_Y intersect P_Z=<Lambda,C> ~= C9 x C3`, `|K|=27`.
+
+Every spine state is `a(1,1,1)+b(0,3,6)=(a,a+3b,a+6b)` with `a in Z9`, `b in Z3`.
+
+## 7. Triality and exact two-per-plane law
+
+Let `S3` act by coordinate permutation. Define
+
+- `J_X(i,j,k)=(k,j,i)`
+- `J_Y(i,j,k)=(j,i,k)`
+- `J_Z(i,j,k)=(i,k,j)`.
+
+Each is an involution and stabilizes its corresponding plane. The plane stabilizer inside coordinate `S3` is `H_f=<J_f> ~= C2`.
+
+For a generic all-distinct multiset orbit represented in the principal-plane union and outside the spine, the six permutations split exactly `2_X+2_Y+2_Z`. Example: `{123,321}` in X, `{132,312}` in Y, `{213,231}` in Z.
+
+Exceptions are diagonal states and the three spine multisets `{1,4,7}`, `{2,5,8}`, `{3,6,9}`.
+
+**[COMPUTED]** `|P_X union P_Y union P_Z|=189`, while tagged incidences total `243`. The larger 513-state all-same-or-all-distinct admissible core is a separate combinatorial subset of the 729 carrier and is not equal to this three-plane union.
+
+## 8. Exact reversal / butterfly braid
+
+Use common reversal `J=J_X:(i,j,k)->(k,j,i)`.
+
+**[THEOREM]** `J(P_X)=P_X`, `J(P_Y)=P_Z`, `J(P_Z)=P_Y`.
+
+For column `C_f(c)={a Lambda + c h_f}`, the parameter laws are
+
+- `J(a Lambda+c h_X)=(a+2c)Lambda-c h_X`
+- `J(a Lambda+c h_Y)=(a+5c)Lambda+5c h_Z`
+- `J(a Lambda+c h_Z)=(a+8c)Lambda+2c h_Y`.
+
+Therefore
+
+- `J(C_X(c))=C_X(-c)`
+- `J(C_Y(c))=C_Z(5c)`
+- `J(C_Z(c))=C_Y(2c)`.
+
+Since `5*2=1 mod9`, the Y/Z tagged-column exchange is involutive. For X, nonzero columns pair `1<->8`, `2<->7`, `3<->6`, `4<->5`, i.e. `A<->H`, `B<->G`, `C<->F`, `D<->E`.
+
+## 9. Two-trit fiber codec
+
+**[REPRESENTATION]** Each displayed digit has unique codec `x=r+3q mod9`, `r,q in Z3`, giving fibers `{9,3,6}`, `{1,4,7}`, `{2,5,8}`. This is a set bijection `Z9 <-> Z3^2`, not an additive-group isomorphism because addition includes ternary carry.
+
+For coarse orientation `(r_i,r_j,r_k)=(0,1,2)`, the family law is `q_i+q_j+q_k=f mod3`, `f=0,1,2 <-> X,Y,Z`.
+
+## 10. Native finite Pontryagin / NTT transform
+
+The additive carrier is `A=C9^3`, so its intrinsic dual is `A^ ~= C9^3`.
+
+Using `F_58321` with primitive ninth root `omega9=51567` and primitive cube root `omega3=30624`, define
+
+`Fhat(alpha,beta,gamma)=sum_{i,j,k in Z9} F(i,j,k) omega9^(alpha i+beta j+gamma k)`.
+
+Thus the canonical transform is
+
+`F_A = F9 tensor F9 tensor F9`.
+
+It has 729 coefficients. Since `9=3^2`, it has `3 axes x 2 radix-3 stages = 6` radix-3 stages and exactly `1458` three-point butterflies.
+
+Translations diagonalize:
+
+`FT(T_h F)(xi)=chi_xi(h) FT(F)(xi)`.
+
+Therefore `T_Lambda`, `T_X`, `T_Y`, `T_Z` become exact spectral phase multipliers, while coordinate `S3` acts by frequency-coordinate permutation.
+
+### Superplane sparsity theorem
+
+For indicator `1_{P_f}`,
+
+`FT(1_{P_f})(xi)=81` when `xi in P_f^perp`, and `0` otherwise,
+
+where `P_f^perp=<ell_f>` is the 9-point dual line generated by the plane normal. Hence every canonical 81-cell superplane indicator has exactly **9 nonzero native spectral bins**.
+
+### Optional cyclic 729 transform
+
+A one-dimensional N=729 NTT is valid after choosing a flattening, but `C9^3` is not additively isomorphic to `C729`. Therefore the cyclic 729 NTT is an optional transport representation, not the intrinsic Fourier transform of the DIAZAI carrier.
+
+## 11. 60-trit macro-rotor
+
+A raw 60-trit word has cyclic shift `sigma` generating `C60`. Width-d charts give `3^60=9^30=27^20=81^15=243^12=729^10`, and one width-d macro-step is `sigma^d`, order `60/d` for `d|60`.
+
+This is a stream/chart symmetry, not an identity between `C60` and the local carrier `C9^3`. `F_58321` supports both ninth-root local characters and 60th-root macro-rotor characters, so the same exact coefficient field can implement both layers without conflating the groups.
+
+## 12. Canonical operator vocabulary
+
+A compact operator vocabulary is
+
+`O={T_Lambda,T_X,T_Y,T_Z,S3,mu,F_A}`,
+
+with `mu(v)=-v` and `F_A=F9^tensor3`.
+
+Derived operators include the common stator `C`, plane masks, `J_X/J_Y/J_Z`, the Y/Z reversal braid, unit-orbit tableau reindexings, the six-trit codec, optional `C60` stream rotor, and optional cyclic-729 transport NTT.
+
+## 13. Patent-facing computation hypothesis
+
+The engineering invention to test is not the mathematical identities themselves. It is a processor/method that uses radix-native six-trit addressing, six fixed radix-3 stages, address/twiddle realization of S3/reversal/family operations, nine-bin annihilator sparsity for superplane kernels, pretransformed exact AI weights, deterministic inverse routing, and optional C60 stream control in one modular/RNS arithmetic fabric.
