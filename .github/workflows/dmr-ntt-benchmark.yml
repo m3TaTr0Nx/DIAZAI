@@ -1,0 +1,50 @@
+name: DMR-NTT Benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'benchmarks/dmr_ntt_v1/**'
+      - '.github/workflows/dmr-ntt-benchmark.yml'
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: benchmarks/dmr_ntt_v1/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r benchmarks/dmr_ntt_v1/requirements.txt
+
+      - name: System fingerprint
+        run: |
+          uname -a
+          lscpu || true
+          python -VV
+          python - <<'PY'
+          import numpy, scipy
+          print('numpy', numpy.__version__)
+          print('scipy', scipy.__version__)
+          PY
+
+      - name: Run exact comparator
+        working-directory: benchmarks/dmr_ntt_v1
+        run: python benchmark_suite.py | tee benchmark.log
+
+      - name: Upload benchmark artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dmr-ntt-benchmark-results
+          path: |
+            benchmarks/dmr_ntt_v1/results/benchmark.json
+            benchmarks/dmr_ntt_v1/benchmark.log
+          if-no-files-found: error
