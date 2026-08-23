@@ -1,0 +1,19 @@
+{
+  "version": "9.1",
+  "status": "PROPOSED_FOR_CANON_APPROVAL",
+  "items": [
+    {"id":"A1","name":"Nine-column orthogonal support decomposition","class":"THM","approval":"READY"},
+    {"id":"A2","name":"27-character 9x3 column raster / three Z9 stride tracks","class":"THM","approval":"READY"},
+    {"id":"A3","name":"Principal-plane 1-or-3 equality rule","class":"THM","approval":"READY"},
+    {"id":"A4","name":"Lambda/T/rotor 9+18+54 column partition","class":"THM","approval":"READY"},
+    {"id":"A5","name":"Pontryagin character-dual translation law","class":"THM","approval":"READY"},
+    {"id":"B1","name":"513=504+9 strict/core equality partition","class":"THM","approval":"READY"},
+    {"id":"B2","name":"216=3*9*8=6^3 exactly-two-equal shell","class":"THM","approval":"READY"},
+    {"id":"B3","name":"216<->U9^3 mixed-radix reversible codec","class":"DEF+EXH","approval":"READY_AS_CODEC_NOT_ISOMORPHISM"},
+    {"id":"C1","name":"cut-open display lift 0,9 -> residue 0","class":"THM/DEF","approval":"READY"},
+    {"id":"C2","name":"10/9 endpoint ratio / repeating-decimal identities","class":"THM arithmetic","approval":"READY_WITHOUT_PHYSICAL_INTERPRETATION"},
+    {"id":"O1","name":"10-orthoplex intrinsic geometry","class":"OPEN","approval":"HOLD"},
+    {"id":"O2","name":"totient/hyperinteger privileged interpretation of 10/9","class":"OPEN","approval":"HOLD"},
+    {"id":"O3","name":"magic-square status of 3x3 row bands","class":"OPEN","approval":"HOLD_PENDING_OPERATION"}
+  ]
+}
