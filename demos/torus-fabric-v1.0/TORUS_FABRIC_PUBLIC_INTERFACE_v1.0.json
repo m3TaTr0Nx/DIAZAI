@@ -1,0 +1,28 @@
+{
+  "name": "DIAZAI ULTRACODE Torus Fabric Public Interface v1.0",
+  "status": "public-preview",
+  "coordinate_contract": {
+    "native_state": "Z9^3",
+    "fiber_coordinates": ["r", "d12", "d23"],
+    "cardinality": 729,
+    "coupling_base": 81,
+    "lambda_fiber": 9
+  },
+  "views": [
+    "coupling_torus",
+    "six_trit_address_projection",
+    "9x9x9_ambient_cube",
+    "27x27_matrix"
+  ],
+  "runtime_event_contract": {
+    "logical_expert_immutable": true,
+    "accepted_observations": ["router_event", "kv_event", "resource_tick"],
+    "authority_default": "shadow"
+  },
+  "public_boundaries": [
+    "No private optimization weights",
+    "No customer traces",
+    "No unpublished hardware mappings",
+    "No claim of inference acceleration from spectral labels"
+  ]
+}
