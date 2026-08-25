@@ -1,0 +1,6 @@
+{
+  "gpt-oss-20b": {"repo":"openai/gpt-oss-20b","family":"gpt_oss","layers":24,"experts":32,"top_k":4,"context_length":131072},
+  "qwen3-30b-a3b": {"repo":"Qwen/Qwen3-30B-A3B","family":"qwen3_moe","layers":48,"experts":128,"top_k":8,"context_length":40960},
+  "mixtral-8x7b": {"repo":"mistralai/Mixtral-8x7B-Instruct-v0.1","family":"mixtral","layers":32,"experts":8,"top_k":2,"context_length":32768},
+  "olmoe-1b-7b": {"repo":"allenai/OLMoE-1B-7B-0125-Instruct","family":"olmoe","layers":16,"experts":64,"top_k":8,"context_length":4096}
+}
