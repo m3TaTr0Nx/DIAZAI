@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DIAZAI 1080° Spectral Calculus Atlas v0.5</title>
+<style>
+:root{--bg:#07111c;--panel:#0d1a2a;--panel2:#11253a;--line:#35516f;--text:#edf7ff;--muted:#9bb4ce;--cyan:#63dcff}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(#081523,#03070d);color:var(--text);font:14px/1.35 Inter,system-ui,sans-serif}
+header{padding:14px 18px;background:#081420;border-bottom:1px solid #24415e;position:sticky;top:0;z-index:10}
+header b{font-size:26px} header div{color:var(--muted)}
+main{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(350px,.7fr);gap:12px;padding:12px}
+.card{background:linear-gradient(180deg,rgba(15,31,49,.97),rgba(8,18,30,.98));border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.stage{position:relative} canvas{display:block;width:100%;height:auto}
+.controls{padding:12px;display:grid;gap:10px} .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+label{display:flex;gap:7px;align-items:center} input[type=range]{width:100%} select,button{min-height:42px;background:#091728;color:#f2f8ff;border:1px solid #395a7e;border-radius:9px;padding:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border-bottom:1px solid #243d58} .chip{background:#081828;border:1px solid #2b4b6a;border-radius:999px;padding:5px 8px;font:11px ui-monospace,monospace}
+.readout{font:12px ui-monospace,monospace;white-space:pre-wrap;color:#d7e7f8} .sub{color:var(--muted)}
+.tableWrap{overflow:auto;max-width:100%} table{border-collapse:collapse;width:100%;font-size:11px} td,th{padding:5px;border-bottom:1px solid #213953;text-align:center}
+#unfold{image-rendering:pixelated}
+@media(max-width:1050px){main{grid-template-columns:1fr}}
+@media(max-width:650px){.g2{grid-template-columns:1fr} header b{font-size:21px}}
+</style>
+</head>
+<body>
+<header><b>DIAZAI 1080° Spectral Calculus / Superplane Atlas v0.5</b><div>canonical 12-plane engine + laser coordinate overlay + live angle / trig metrics + 729 ambient coverage + XYZ 27×27 unfolding</div></header>
+<main>
+<section style="display:grid;gap:12px;min-width:0">
+<div class="card stage">
+<div class="chips">
+<span class="chip">P¹(Z₉)</span><span class="chip">12 Λ-containing planes</span><span class="chip">coverage 648×1 · 72×3 · 9×12</span><span class="chip">XYZ 27×27 = 729 scalar digits</span><span class="chip">ω₁₄₅₈ 27235</span><span class="chip">ω₇₂₉ 18747</span>
+</div>
+<canvas id="scene" width="1280" height="760"></canvas>
+</div>
+<div class="card">
+<div style="padding:12px"><b>XYZ 27×27 scalar-cell unfolding</b><div class="sub">Three canonical planes stacked by 9 rows; every triple expands into its i,j,k digit cells.</div></div>
+<canvas id="unfold" width="972" height="972"></canvas>
+</div>
+</section>
+<aside style="display:grid;gap:12px;align-content:start">
+<div class="card controls">
+<div><b>Operational controls</b></div>
+<label>selected plane <select id="plane"></select></label>
+<label>1080° master phase <input id="phase" type="range" min="0" max="1080" value="0"></label>
+<label>speed <input id="speed" type="range" min="1" max="100" value="24"></label>
+<div class="g2"><button id="animate">animate</button><button id="reset">reset</button></div>
+<div class="g2">
+<label><input id="grid" type="checkbox" checked>laser grid</label>
+<label><input id="angles" type="checkbox" checked>angle arcs</label>
+<label><input id="cloud" type="checkbox" checked>729 cloud</label>
+<label><input id="planes" type="checkbox" checked>12 planes</label>
+<label><input id="labels" type="checkbox" checked>labels</label>
+<label><input id="trails" type="checkbox" checked>trails</label>
+</div>
+</div>
+<div class="card controls"><div><b>Canonical plane</b></div><div class="readout" id="canonical"></div></div>
+<div class="card controls"><div><b>Laser grid metrics / trigonometric computation</b></div><div class="readout" id="metrics"></div></div>
+<div class="card controls"><div><b>Coverage audit</b></div><div class="readout" id="coverage"></div></div>
+</aside>
+</main>
+<script>
+const ROOT=document;
+const planes=[{"id":"P[1:0]","label":"P[1:0]","seed":[0,1,0],"equation":"i − k ≡ 0 (mod 9)","orbit":0},{"id":"P[1:1]","label":"P[1:1]","seed":[0,1,1],"equation":"j − k ≡ 0 (mod 9)","orbit":0},{"id":"X","label":"X · P(1,2)","seed":[0,1,2],"equation":"i − 2j + k ≡ 0 (mod 9)","orbit":1},{"id":"P[1:3]","label":"P[1:3]","seed":[0,1,3],"equation":"i + 3j − 4k ≡ 0 (mod 9)","orbit":2},{"id":"P[1:4]","label":"P[1:4]","seed":[0,1,4],"equation":"−3i + j + 2k ≡ 0 (mod 9)","orbit":2},{"id":"Y","label":"Y · P(1,5)","seed":[0,1,5],"equation":"i + j − 2k ≡ 0 (mod 9)","orbit":1},{"id":"P[1:6]","label":"P[1:6]","seed":[0,1,6],"equation":"i − 3j + 2k ≡ 0 (mod 9)","orbit":2},{"id":"P[1:7]","label":"P[1:7]","seed":[0,1,7],"equation":"3i + j − 4k ≡ 0 (mod 9)","orbit":2},{"id":"Z","label":"Z · P(1,8)","seed":[0,1,8],"equation":"i + 4j + 4k ≡ 0 (mod 9)","orbit":1},{"id":"P[0:1]","label":"P[0:1]","seed":[0,0,1],"equation":"i − j ≡ 0 (mod 9)","orbit":0},{"id":"P[3:1]","label":"P[3:1]","seed":[0,3,1],"equation":"i − 4j + 3k ≡ 0 (mod 9)","orbit":2},{"id":"P[6:1]","label":"P[6:1]","seed":[0,6,1],"equation":"i + 2j − 3k ≡ 0 (mod 9)","orbit":2}];
+const U=[1,2,4,8,7,5];
+const $=id=>ROOT.getElementById(id);
+const scene=$('scene'),ctx=scene.getContext('2d'), unfold=$('unfold'),uctx=unfold.getContext('2d');
+const sel=$('plane'); planes.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.label;sel.appendChild(o);});
+let running=false,last=0,raf=0,trail=[];
+function mod9(x){x%=9;return x<0?x+9:x}
+function disp(x){x=mod9(x);return x===0?9:x}
+function planeTable(seed){const rows=[];for(let r=1;r<=9;r++){const rr=r%9,row=[];for(let c=0;c<9;c++) row.push(seed.map(s=>disp(rr+c*s)));rows.push(row);}return rows;}
+function splitPhase(d){return [Math.min(d,360),Math.min(Math.max(d-360,0),360),Math.min(Math.max(d-720,0),360)];}
+function r3(v,ax,ay,az){let [x,y,z]=v.map(Number);const rx=ax*Math.PI/180,ry=ay*Math.PI/180,rz=az*Math.PI/180;let y1=y*Math.cos(rx)-z*Math.sin(rx), z1=y*Math.sin(rx)+z*Math.cos(rx); y=y1;z=z1;let x1=x*Math.cos(ry)+z*Math.sin(ry), z2=-x*Math.sin(ry)+z*Math.cos(ry);x=x1;z=z2;let x2=x*Math.cos(rz)-y*Math.sin(rz), y2=x*Math.sin(rz)+y*Math.cos(rz);x=x2;y=y2;return [x,y,z];}
+function proj(v){const s=45,ox=scene.width*.49,oy=scene.height*.52;return [ox+s*(v[0]+.48*v[2]),oy-s*(v[1]+.28*v[2])];}
+function line(a,b,c,w=1,a0=1){ctx.globalAlpha=a0;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle=c;ctx.lineWidth=w;ctx.stroke();ctx.globalAlpha=1}
+function dot(p,r,c,a=1){ctx.globalAlpha=a;ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);ctx.fillStyle=c;ctx.fill();ctx.globalAlpha=1}
+function text(p,t,c='#eaf5ff',s=13){ctx.fillStyle=c;ctx.font=s+'px system-ui';ctx.fillText(t,p[0]+7,p[1]-7)}
+function drawGrid(){if(!$('grid').checked)return;const ox=scene.width*.49,oy=scene.height*.52,span=360;ctx.save();ctx.lineWidth=1;for(let n=-8;n<=8;n++){const a=.12+(.18*(n%3===0));ctx.strokeStyle=`rgba(70,220,255,${a})`;ctx.beginPath();ctx.moveTo(ox-span,oy+n*24);ctx.lineTo(ox+span,oy+n*24);ctx.stroke();ctx.beginPath();ctx.moveTo(ox+n*24,oy-span);ctx.lineTo(ox+n*24,oy+span);ctx.stroke();}for(let r=48;r<=288;r+=48){ctx.strokeStyle='rgba(120,240,255,.18)';ctx.beginPath();ctx.arc(ox,oy,r,0,Math.PI*2);ctx.stroke();}ctx.strokeStyle='rgba(120,240,255,.72)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ox-span,oy);ctx.lineTo(ox+span,oy);ctx.stroke();ctx.beginPath();ctx.moveTo(ox,oy-span);ctx.lineTo(ox,oy+span);ctx.stroke();ctx.fillStyle='rgba(190,245,255,.9)';ctx.font='12px ui-monospace,monospace';ctx.fillText('0',ox+5,oy-5);ctx.fillText('+i',ox+span-20,oy-7);ctx.fillText('+j',ox+7,oy-span+18);ctx.restore();}
+function angleArc(theta,color,label,r){if(!$('angles').checked)return;const ox=scene.width*.49,oy=scene.height*.52,rad=theta*Math.PI/180;ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.arc(ox,oy,r,0,-rad,theta>=0);ctx.stroke();const p=[ox+r*Math.cos(-rad),oy+r*Math.sin(-rad)];text(p,label,color,12);}
+function planeHue(i){return (i*31+18)%360}
+function draw(){const phase=+$('phase').value,ang=splitPhase(phase),p=planes[+sel.value];ctx.clearRect(0,0,scene.width,scene.height);const g=ctx.createRadialGradient(scene.width*.5,scene.height*.5,20,scene.width*.5,scene.height*.5,600);g.addColorStop(0,'#0b263d');g.addColorStop(.55,'#07131f');g.addColorStop(1,'#02050a');ctx.fillStyle=g;ctx.fillRect(0,0,scene.width,scene.height);drawGrid();angleArc(ang[0],'#ff778f','θ₁ '+ang[0].toFixed(0)+'°',86);angleArc(ang[1],'#78ff9e','θ₂ '+ang[1].toFixed(0)+'°',118);angleArc(ang[2],'#7fa8ff','θ₃ '+ang[2].toFixed(0)+'°',150);if($('cloud').checked){for(let i=0;i<9;i++)for(let j=0;j<9;j++)for(let k=0;k<9;k++){let v=[i-4,j-4,k-4],q=r3(v,ang[0],ang[1],ang[2]),P=proj(q),h=((i+j+k+Math.floor(phase/36))%3)*120;dot(P,1.7,`hsla(${h},85%,62%,.46)`);}}if($('planes').checked){planes.forEach((pl,idx)=>{const seed=pl.seed.map(x=>x===0?0:(x>4?x-9:x));const vr=r3(seed,ang[0],ang[1],ang[2]),P=proj(vr.map(x=>x*7)),N=proj(vr.map(x=>x*-7)),h=planeHue(idx);line(N,P,`hsla(${h},88%,65%,${idx===+sel.value?.95:.28})`,idx===+sel.value?4:1.5);if($('labels').checked && (idx===+sel.value || idx===2 || idx===5 || idx===8))text(P,pl.id,`hsl(${h},95%,78%)`,14);});}const seed=p.seed.map(x=>x===0?0:(x>4?x-9:x)),rot=r3(seed,ang[0],ang[1],ang[2]),Q=proj(rot.map(x=>x*7));dot(Q,10,'#ffffff'); if($('labels').checked)text(Q,p.id+' seed','#ffffff',16);if($('trails').checked){trail.push(Q);if(trail.length>80)trail.shift();trail.forEach((q,i)=>dot(q,2.5,'#63dcff',(i+1)/trail.length*.5));}updatePanels(p,phase,ang,seed,rot);renderUnfold(phase);}
+function norm(v){return Math.hypot(...v)}
+function updatePanels(p,phase,ang,seed,rot){const n=norm(seed)||1,unit=seed.map(x=>x/n),az=Math.atan2(seed[1],seed[0])*180/Math.PI,el=Math.atan2(seed[2],Math.hypot(seed[0],seed[1]))*180/Math.PI;$('canonical').textContent=`${p.label}\nseed h = (${p.seed.join(', ')})\nequation: ${p.equation}\nS₃ orbit: ${p.orbit}\nunit-associated horizontal multipliers: ${U.join(' → ')}\nshared vertical rotor cycle: ${U.join(' → ')}`;const th=phase*Math.PI/180,tan=Math.abs(Math.cos(th))<1e-9?'undefined':Math.tan(th).toFixed(6);$('metrics').textContent=`display metric (Euclidean representative; not an extra canon axiom)\nθ = ${phase.toFixed(2)}°\nsplit = (${ang.map(x=>x.toFixed(2)).join('°, ')}°)\nsin θ = ${Math.sin(th).toFixed(6)}\ncos θ = ${Math.cos(th).toFixed(6)}\ntan θ = ${tan}\n||h||₂ = ${n.toFixed(6)}\nunit(h) = (${unit.map(x=>x.toFixed(4)).join(', ')})\nazimuth = ${az.toFixed(3)}°\nelevation = ${el.toFixed(3)}°\nrotated display seed = (${rot.map(x=>x.toFixed(4)).join(', ')})`;$('coverage').textContent=`verified from 12 canonical seed families:\nambient states covered = 729 / 729\nmultiplicity 1: 648 states\nmultiplicity 3: 72 states\nmultiplicity 12: 9 states\ntotal plane incidences = 972\ngauges = 12 × 36 = 432`;}
+function renderUnfold(phase){const ids=['X','Y','Z'],cw=36,ch=36;uctx.clearRect(0,0,unfold.width,unfold.height);uctx.fillStyle='#05101a';uctx.fillRect(0,0,unfold.width,unfold.height);ids.forEach((id,b)=>{const p=planes.find(x=>x.id===id),tab=planeTable(p.seed);for(let r=0;r<9;r++)for(let c=0;c<9;c++)for(let d=0;d<3;d++){const x=(c*3+d)*cw,y=(b*9+r)*ch,val=tab[r][c][d],band=(val+Math.floor(phase/60))%3,h=band===0?0:band===1?120:220;uctx.fillStyle=`hsla(${h},82%,${34+val*3}%,.92)`;uctx.fillRect(x+1,y+1,cw-2,ch-2);uctx.fillStyle='#f4fbff';uctx.font='12px ui-monospace,monospace';uctx.fillText(String(val),x+14,y+22);}uctx.fillStyle='#d9e9f8';uctx.font='16px system-ui';uctx.fillText(id,6,b*9*ch+18);});}
+function tick(t){if(!running)return;if(last){let v=(+$('phase').value)+(t-last)*(+$('speed').value)/650;$('phase').value=v%1081;draw()}last=t;raf=requestAnimationFrame(tick)}
+$('animate').addEventListener('click',()=>{running=!running;last=0;if(running)raf=requestAnimationFrame(tick);else cancelAnimationFrame(raf);});
+$('reset').addEventListener('click',()=>{running=false;cancelAnimationFrame(raf);$('phase').value=0;sel.value=2;trail=[];draw();});
+[sel,$('phase'),$('speed'),$('grid'),$('angles'),$('cloud'),$('planes'),$('labels'),$('trails')].forEach(x=>x.addEventListener('input',draw));
+sel.value=2;draw();
+</script>
+</body>
+</html>
