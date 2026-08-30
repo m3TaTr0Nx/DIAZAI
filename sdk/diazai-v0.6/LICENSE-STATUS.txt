@@ -1,0 +1,4 @@
+LICENSE HOLD
+
+No license is granted by this candidate directory. Choose an open-source
+license only after the patent/licensing decision is deliberate.
