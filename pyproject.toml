@@ -1,0 +1,19 @@
+[build-system]
+requires=["hatchling>=1.25"]
+build-backend="hatchling.build"
+[project]
+name="diazai-enterprise"
+version="0.1.0"
+description="Reversible worldstate and Z9^3 hypermatrix control plane"
+readme="README.md"
+requires-python=">=3.11"
+dependencies=["fastapi>=0.116,<1","uvicorn[standard]>=0.35,<1","pydantic>=2.11,<3","httpx>=0.28,<1"]
+[project.optional-dependencies]
+dev=["pytest>=8.4,<9","ruff>=0.12,<1"]
+[project.scripts]
+diazai="diazai_enterprise.app:run"
+[tool.hatch.build.targets.wheel]
+packages=["src/diazai_enterprise"]
+[tool.pytest.ini_options]
+pythonpath=["src"]
+addopts="-q"
