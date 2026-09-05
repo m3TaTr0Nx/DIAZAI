@@ -1,0 +1,37 @@
+{
+  "environment": {"platform":"Linux-6.18.35-x86_64-with-glibc2.41","python":"3.13.5","numpy":"2.3.5","cpu_count":5},
+  "parameters": {"N":729,"p1":58321,"p2":1459,"root1":12723,"root2":9},
+  "correctness": {"optimized_equals_naive":true,"roundtrip":true,"two_prime_crt_exact":true},
+  "benchmarks": {
+    "ntt729_naive_radix3_core":{"median_ms":0.056233,"p10_ms":0.056033,"p90_ms":0.056924,"min_ms":0.055823},
+    "ntt729_optimized_radix3_core":{"median_ms":0.0825125,"p10_ms":0.081811,"p90_ms":0.09403,"min_ms":0.081461},
+    "inference_singleprime_pretransformed_weight":{"median_ms":0.182716,"p10_ms":0.18166,"p90_ms":0.192035,"min_ms":0.176822},
+    "inference_twoprime_pretransformed_weight":{"median_ms":0.373199,"p10_ms":0.368797,"p90_ms":0.409778,"min_ms":0.3637},
+    "full_twoprime_conv_weight_transform_included":{"median_ms":0.6120485,"p10_ms":0.607101,"p90_ms":0.644887,"min_ms":0.605538},
+    "direct_exact_cyclic_conv":{"median_ms":0.9845815,"p10_ms":0.975437,"p90_ms":1.139341,"min_ms":0.974976},
+    "numpy_fftconv":{"median_ms":0.030745,"p10_ms":0.030565,"p90_ms":0.031486,"min_ms":0.030275},
+    "ntt2_27x27_separable":{"median_ms":0.11819,"p10_ms":0.117825,"p90_ms":0.120479,"min_ms":0.117605}
+  },
+  "batch_singleprime_pretransformed": {
+    "1":{"median_ms":0.1718295,"p10_ms":0.168209,"p90_ms":0.197363,"min_ms":0.167809},
+    "4":{"median_ms":0.797033,"p10_ms":0.790373,"p90_ms":0.839816,"min_ms":0.788069},
+    "16":{"median_ms":3.29881,"p10_ms":3.249051,"p90_ms":3.688644,"min_ms":3.232597},
+    "64":{"median_ms":13.3038965,"p10_ms":13.169122,"p90_ms":13.570498,"min_ms":13.150735}
+  },
+  "operation_model": {
+    "radix3_729_stages":6,
+    "radix3_butterflies":1458,
+    "optimized_general_modular_multiplies_approx":4374,
+    "padded_radix2_1024_butterflies":5120,
+    "padded_radix2_general_twiddle_multiplies_approx":5120,
+    "radix3_vs_padded_radix2_mult_ratio":0.854296875,
+    "memory_points_ratio_729_to_1024":0.7119140625
+  },
+  "derived": {
+    "optimized_vs_naive_radix3_speedup":0.6815088622935919,
+    "pretransformed_twoprime_vs_full_twoprime_speedup":1.6400057342061474,
+    "pretransformed_twoprime_vs_direct_speedup":2.6382211635079407,
+    "exact_pretransformed_twoprime_vs_numpy_fftconv_slowdown":12.13852658968938,
+    "ntt2_vs_ntt1_ratio":1.4323890319648536
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "numba": "0.65.1",
+    "torch": "2.10.0+cpu",
+    "cpu_count": 5
+  },
+  "parameters": {
+    "N": 729,
+    "p1": 58321,
+    "root1": 12723,
+    "p2": 1459,
+    "root2": 9,
+    "coeff_range": "int8 [-127,127]",
+    "crt_product": 85090339,
+    "stages": 6,
+    "radix3_butterflies": 1458
+  },
+  "correctness": {
+    "ntt_roundtrip": true,
+    "python_generic_matches_fixed": true,
+    "rns_equals_direct": true,
+    "numpy_fft_rounding_equals_direct": true
+  },
+  "benchmarks": {
+    "ntt729_numba_exact_fixed": {"median_ms": 0.068933, "p10_ms": 0.068752, "p90_ms": 0.069694, "min_ms": 0.068562, "reps": 400},
+    "intt729_numba_exact_fixed": {"median_ms": 0.0678405, "p10_ms": 0.067641, "p90_ms": 0.068252, "min_ms": 0.06738, "reps": 400},
+    "ntt729_python_generic": {"median_ms": 1.302333, "p10_ms": 1.289103, "p90_ms": 1.331576, "min_ms": 1.288252, "reps": 30},
+    "conv729_singleprime_numba": {"median_ms": 0.204864, "p10_ms": 0.204504, "p90_ms": 0.214599, "min_ms": 0.204323, "reps": 150},
+    "conv729_twoprime_rns_exact": {"median_ms": 0.411956, "p10_ms": 0.41133, "p90_ms": 0.427965, "min_ms": 0.41104, "reps": 100},
+    "conv729_direct_int64_numba": {"median_ms": 0.9763740000000001, "p10_ms": 0.975427, "p90_ms": 1.013424, "min_ms": 0.974917, "reps": 100},
+    "fft729_numpy_float64": {"median_ms": 0.009695, "p10_ms": 0.009615, "p90_ms": 0.009985, "min_ms": 0.009524, "reps": 1000},
+    "conv729_numpy_fft_float64": {"median_ms": 0.030606, "p10_ms": 0.030355, "p90_ms": 0.031056, "min_ms": 0.030135, "reps": 700},
+    "dense729_circulant_matvec_numpy": {"median_ms": 0.011927, "p10_ms": 0.011747, "p90_ms": 0.012169, "min_ms": 0.011548, "reps": 300},
+    "dense729_batch64_numpy": {"median_ms": 0.321617, "p10_ms": 0.320205, "p90_ms": 0.367946, "min_ms": 0.31658, "reps": 100},
+    "fftconv729_batch64_numpy": {"median_ms": 0.426393, "p10_ms": 0.423919, "p90_ms": 0.470499, "min_ms": 0.422527, "reps": 100}
+  },
+  "torch_cpu": {
+    "torch_fft729_cpu": {"median_ms": 0.016144, "p10_ms": 0.016054, "p90_ms": 0.016384, "min_ms": 0.015983, "reps": 500},
+    "torch_fftconv729_cpu": {"median_ms": 0.0514015, "p10_ms": 0.051206, "p90_ms": 0.052057, "min_ms": 0.051045, "reps": 300},
+    "torch_dense729_cpu": {"median_ms": 0.06993350000000001, "p10_ms": 0.069393, "p90_ms": 0.070946, "min_ms": 0.069122, "reps": 300}
+  },
+  "scales": {
+    "3": {"median_ms": 0.000791, "p10_ms": 0.000771, "p90_ms": 0.000871, "min_ms": 0.000751, "reps": 500},
+    "9": {"median_ms": 0.001181, "p10_ms": 0.001161, "p90_ms": 0.001202, "min_ms": 0.001132, "reps": 500},
+    "27": {"median_ms": 0.002474, "p10_ms": 0.002453, "p90_ms": 0.002504, "min_ms": 0.002424, "reps": 500},
+    "81": {"median_ms": 0.00671, "p10_ms": 0.00668, "p90_ms": 0.00678, "min_ms": 0.006639, "reps": 500},
+    "243": {"median_ms": 0.020685500000000002, "p10_ms": 0.020571, "p90_ms": 0.020881, "min_ms": 0.0205, "reps": 500},
+    "729": {"median_ms": 0.066068, "p10_ms": 0.065848, "p90_ms": 0.067029, "min_ms": 0.065687, "reps": 300}
+  },
+  "derived": {
+    "fixed_vs_generic_python_ntt_speedup": 18.892736425224495,
+    "rns_ntt_vs_direct_exact_speedup": 2.3700929225451266,
+    "numpy_fft_vs_exact_fixed_ntt_ratio": 7.1101598762248575,
+    "batch64_dense_vs_fftconv_speedup": 0.7542736395766346
+  }
+}
