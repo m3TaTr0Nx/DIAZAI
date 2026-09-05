@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diazai.local/schemas/hypervoxel_state.v1.json",
+  "title": "DIAZAI Hypervoxel State Tuple v1",
+  "description": "Instantaneous seven-component DIAZAI configuration state H_t=(address, math, payload, links, runtime, time, provenance).",
+  "type": "object",
+  "required": ["version","tuple","address","math","payload","links","runtime","time","provenance"],
+  "properties": {
+    "version": {"const":"1.0.0"},
+    "tuple": {"const":"H_t=(a,m,p,l,r,tau,pi)"},
+    "address": {"type":"object","required":["tape_position","page","address729","ijk"],"additionalProperties":true},
+    "math": {"type":"object","required":["digital_root","ysn","admissibility","permutations","superplanes"],"additionalProperties":true},
+    "payload": {"type":"object"},
+    "links": {"type":"array","items":{"type":"string"}},
+    "runtime": {"type":"object","required":["control_state","status"]},
+    "time": {"type":"object","required":["tick"]},
+    "provenance": {"type":"object","required":["trace_id","reason"]}
+  },
+  "additionalProperties": false
+}

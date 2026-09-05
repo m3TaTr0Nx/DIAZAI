@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://diazai.local/schemas/port_edge.v1.json",
+  "title":"DIAZAI Port / Edge Tuple v1",
+  "description":"Typed connection contract P=(id,source,target,relation,direction,guard,metadata).",
+  "type":"object",
+  "required":["version","id","source","target","relation","direction","guard","metadata"],
+  "properties": {
+    "version":{"const":"1.0.0"},
+    "id":{"type":"string"},
+    "source":{"type":"string"},
+    "target":{"type":"string"},
+    "relation":{"enum":["generator","permutation","toric","lambda","mirror","semantic","runtime_flow","provenance","workflow"]},
+    "direction":{"enum":["directed","bidirectional"]},
+    "guard":{"type":"object","required":["allowed"],"properties":{"allowed":{"type":"boolean"},"reason":{"type":"string"}}},
+    "metadata":{"type":"object"}
+  },
+  "additionalProperties":false
+}

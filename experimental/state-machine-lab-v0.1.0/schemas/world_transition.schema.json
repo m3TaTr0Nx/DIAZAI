@@ -1,0 +1,26 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://diazai.local/schemas/world_transition.v1.json",
+  "title":"DIAZAI World Transition Function v1",
+  "description":"Machine-law contract M_D=(Q,Gamma,A,O,E,delta,F). This schema describes the domains and a transition request/result rather than pretending delta is a JSON scalar.",
+  "type":"object",
+  "required":["version","machine_tuple","domains","transition"],
+  "properties": {
+    "version":{"const":"1.0.0"},
+    "machine_tuple":{"const":"M_D=(Q,Gamma,A,O,E,delta,F)"},
+    "domains":{"type":"object","required":["Q","Gamma","A","O","E","F"]},
+    "transition":{
+      "type":"object",
+      "required":["current_state","event","operator","next_state","invariants_checked","reason"],
+      "properties":{
+        "current_state":{"type":"object"},
+        "event":{"type":"object"},
+        "operator":{"type":"string"},
+        "next_state":{"type":"object"},
+        "invariants_checked":{"type":"array","items":{"type":"string"}},
+        "reason":{"type":"string"}
+      }
+    }
+  },
+  "additionalProperties":false
+}
