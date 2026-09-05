@@ -1,0 +1,27 @@
+name: statetrace-ci
+on: [push, pull_request]
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - run: pip install -e './statetrace-enterprise/python-service[dev]'
+      - run: pytest -q statetrace-enterprise/python-service/tests
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm test
+        working-directory: statetrace-enterprise/node-service
+      - run: npm test
+        working-directory: statetrace-enterprise/web-console
+  c-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: make test
+        working-directory: statetrace-enterprise/oasis-adapters/c

@@ -1,0 +1,16 @@
+{
+  "name": "@diazai/statetrace-node",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Dependency-light deterministic replay and evidence service",
+  "engines": {"node": ">=20"},
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "benchmark": "node benchmarks/run.mjs --count 25000",
+    "check": "node --check src/server.mjs",
+    "mcp": "node src/mcp-stdio.mjs"
+  },
+  "license": "MIT"
+}
