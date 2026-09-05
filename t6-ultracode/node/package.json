@@ -1,0 +1,14 @@
+{
+  "name": "diazai-t6-ultracode-node",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Node.js implementation of the DIAZAI T6 Ultracode MCP Foundry",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "mcp": "node src/mcp-stdio.mjs",
+    "test": "node --test",
+    "smoke": "node -e \"import('./src/registry.mjs').then(m=>console.log(JSON.stringify(m.smoke(),null,2)))\""
+  },
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}
